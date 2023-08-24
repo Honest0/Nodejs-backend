@@ -1,0 +1,32 @@
+namespace: nodejs-backend
+nodejs-backend:
+  defines: runnable
+  metadata:
+    name: nodejs-backend
+    description: An Express-based backend server for the EntireNews application
+    icon: https://emojiapi.dev/api/v1/newspaper.svg
+  containers:
+    nodejs-backend:
+      build: .
+  services:
+    nodejs-backend-http:
+      container: nodejs-backend
+      port: .nan
+      host-port: .nan
+      publish: false
+      protocol: TCP
+  connections:
+    mongoose:
+      target: mongodb/mongodb
+      service: mongodb
+  variables:
+    jwtsecret:
+      env: jwtSecret
+      type: string
+      description: Secret key for JWT
+      value: '!!!SETME-USE-SECRETS!!!'
+    database:
+      env: database
+      type: string
+      description: MongoDB connection URI
+      value: '!!!SETME-USE-SECRETS!!!'
