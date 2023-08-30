@@ -1,0 +1,33 @@
+namespace: nodejs-backend
+nodejs-backend:
+  defines: runnable
+  metadata:
+    name: nodejs-backend
+    description: A backend service for a news app
+    icon: https://emojiapi.dev/api/v1/newspaper.svg
+  containers:
+    nodejs-backend:
+      build: .
+  services:
+    app-port:
+      container: nodejs-backend
+      port: <- $port
+      host-port: <- $port
+      publish: false
+      protocol: TCP
+      description: Main application port
+  connections:
+    mongodb:
+      target: mongodb/mongodb
+      service: mongodb
+  variables:
+    port:
+      env: PORT
+      type: string
+      description: Port to run the application
+      value: '3000'
+    database:
+      env: database
+      type: string
+      description: Database connection URL
+      value: <- connection-hostname("mongodb")
