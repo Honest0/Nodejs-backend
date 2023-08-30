@@ -1,0 +1,45 @@
+namespace: nodejs-backend
+nodejs-backend:
+  defines: runnable
+  metadata:
+    name: nodejs-backend
+    description: >-
+      The backend system for the Nodejs application that uses Express.js and
+      MongoDB to handle API requests
+    icon: https://emojiapi.dev/api/v1/back.svg
+  containers:
+    nodejs-backend:
+      build: .
+  services:
+    express-port:
+      container: nodejs-backend
+      port: 3000
+      host-port: 3000
+      publish: false
+      protocol: TCP
+      description: Port on which Express.js API Server runs
+  connections:
+    mongodb:
+      target: mongodb/mongodb
+      service: mongodb
+  variables:
+    jwtsecret:
+      env: jwtSecret
+      type: string
+      description: Secret key for JWT token encryption
+      value: '!!!SETME-USE-SECRETS!!!'
+    jwtsession:
+      env: jwtSession
+      type: string
+      description: JWT session configuration
+      value: '{"session": false}'
+    database:
+      env: database
+      type: string
+      description: Database connection string
+      value: '!!!SETME-USE-SECRETS!!!'
+    port:
+      env: PORT
+      type: int
+      description: Port to run the server on
+      value: '3000'
